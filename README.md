@@ -22,4 +22,4 @@ then
 
 - try to install the missing package using `apt get <packagename>`
 
-If you're still stuck open an issue.
+If you're still stuck open an [issue](https://github.com/rdynsxtrs/rn6addons/issues).
