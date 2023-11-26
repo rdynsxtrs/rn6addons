@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+export DH_VERBOSE=1
+AUTOBUILD_CONFIGURE_EXTRA += --enable-libffmpeg_static --enable-hdhomerun_static --prefix=/apps/tvheadend
+# CFLAGS += -march=atom -mtune=atom -mfpmath=sse -msse2
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- ${AUTOBUILD_CONFIGURE_EXTRA} ${JOBSARGS}
+
+override_dh_auto_build:
+	make ${JARGS}
+
+override_dh_strip:
+	dh_strip --dbg-package=tvheadend-dbg
+
+override_dh_auto_install:
+	dh_auto_install --destdir=debian/tvheadend
+	# mkdir -p $(CURDIR)/debian/tvheadend/usr/share/doc/couchpotato2
+	# install -m 644 $(CURDIR)/debian/addons.conf $(CURDIR)/debian/couchpotato2/usr/share/doc/couchpotato2/
+
+override_dh_auto_clean:
+  

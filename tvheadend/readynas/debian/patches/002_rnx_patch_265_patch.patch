@@ -1,0 +1,20 @@
+--- a/support/patches/libx265.pie.diff	2017-11-24 08:35:49.000000000 +0000
++++ b/support/patches/libx265.pie.diff	2017-11-26 13:45:07.978416491 +0000
+@@ -18,7 +18,7 @@
+ +            set(ARM_ARGS -fPIE)
+          else()
+ -            set(ARM_ARGS -march=armv6 -mfloat-abi=soft -mfpu=vfp -marm -fPIC)
+-+            set(ARM_ARGS -march=armv6 -mfloat-abi=soft -mfpu=vfp -marm -fPIE)
+++            set(ARM_ARGS -march=armv6 -mfloat-abi=soft -mfpu=neon -marm -fPIE)
+          endif()
+          message(STATUS "cross compile arm")
+      elseif(ARM)
+@@ -30,7 +30,7 @@
+              find_package(Neon)
+              if(CPU_HAS_NEON)
+ -                set(ARM_ARGS -mcpu=native -mfloat-abi=hard -mfpu=neon -marm -fPIC)
+-+                set(ARM_ARGS -mcpu=native -mfloat-abi=hard -mfpu=neon -marm -fPIE)
+++                set(ARM_ARGS -mcpu=native -mfloat-abi=soft -mfpu=neon -marm -fPIE)
+                  add_definitions(-DHAVE_NEON)
+              else()
+                  set(ARM_ARGS -mcpu=native -mfloat-abi=hard -mfpu=vfp -marm)

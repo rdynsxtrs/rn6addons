@@ -1,0 +1,67 @@
+--- tvheadend-4.1-49.orig/support/version
++++ tvheadend-4.1-49/support/version
+@@ -7,12 +7,12 @@
+ FILE=$1
+ 
+ # Calculate version
+-if [ -d ".git" ]; then
+-  VER=$(cd "$(dirname "$0")"/..; git describe --dirty --match "v*" 2> /dev/null)
++if [ -d "../tvheadend.clean/.git" ]; then
++  VER=$(cd "$(dirname "$0")"/../../tvheadend.clean/; git describe --dirty --match "v*" 2> /dev/null)
+   if [ $? -ne 0 ]; then
+     # Git describe failed, maybe "--dirty" option is not available
+     # Adding "-unknown" postfix to mark this situation
+-    VER=$(cd "$(dirname "$0")/.."; git describe --match "v*" 2> /dev/null)
++    VER=$(cd "$(dirname "$0")/../../tvheadend.clean/"; git describe --match "v*" 2> /dev/null)
+     [ -z "$VER" ] && VER="0.0.0-unknown"
+   fi
+   VER=$(echo $VER | sed "s/^v//" | sed "s/-\([0-9]*\)-\(g[0-9a-f]*\)/-\1~\2/")
+--- tvheadend-4.1-49.orig/support/changelog
++++ tvheadend-4.1-49/support/changelog
+@@ -7,16 +7,27 @@
+ CHANGELOG=$1
+ DIST=$2
+ VER=$3
++VER=${VER%%~*}
++
++BUILDVER=${VER}
++if [ -f $(dirname "$0")/../../commit.msg ]; then
++	. $(dirname "$0")/../../commit.msg
++else
++	BUILDNO=0
++fi
++
++VER="${VER}-rnx${BUILDNO}"
++sed -e "s/_VERSION_/${VER}/g" $(dirname "$0")/../debian/readynas/config.xml.template > $(dirname "$0")/../debian/readynas/config.xml
+ 
+ HISTORY=$(cd "$(dirname "$0")/.."; git log -5 --no-merges --pretty=format:"  * %h %<(50,trunc)%s"; 2> /dev/null)
+ [ $? -ne 0 ] && HISTORY=""
+ 
+ # Defaults
+ [ -z "$CHANGELOG"     ] && CHANGELOG=$(dirname "$0")/../debian/changelog
+-[ -z "$DEBEMAIL"      ] && DEBEMAIL="andreas@tvheadend.org"
+-[ -z "$DEBFULLNAME"   ] && DEBFULLNAME="Andreas Öman"
++[ -z "$DEBEMAIL"      ] && DEBEMAIL="xtras@readynasxtras.com"
++[ -z "$DEBFULLNAME"   ] && DEBFULLNAME="ReadyNAS Xtras"
+ [ -z "$VER"           ] && VER=$("$(dirname "$0")"/version)
+-[ ! -z "$DIST"        ] && VER=${VER}~${DIST}
++# [ ! -z "$DIST"        ] && VER=${VER}~${DIST}
+ [ -z "$DIST"          ] && DIST=unstable
+ [ -z "$HISTORY"       ] && HISTORY=""
+ 
+@@ -25,8 +36,14 @@
+ echo >"${CHANGELOG}"  "tvheadend (${VER}) ${DIST}; urgency=low"
+ echo >>"${CHANGELOG}"
+ [ ! -z "$HISTORY" ] && echo >>"${CHANGELOG}" "${HISTORY}\n"
++echo >>"${CHANGELOG}" "  * Made it work on ReadyNAS OS 6 (x86) "
+ echo >>"${CHANGELOG}" "  * The full changelog(s) can be found at "
+ echo >>"${CHANGELOG}" "    https://tvheadend.org/projects/tvheadend/wiki/Releases"
+ echo >>"${CHANGELOG}" "    https://github.com/tvheadend/tvheadend"
+ echo >>"${CHANGELOG}"
+ echo >>"${CHANGELOG}" " -- ${DEBFULLNAME} <${DEBEMAIL}>  ${NOW}"
++
++BUILDNO=$(expr ${BUILDNO} + 1)
++echo "BUILDNO=${BUILDNO}" > $(dirname "$0")/../../commit.msg
++echo "BUILDVER=${BUILDVER}" >> $(dirname "$0")/../../commit.msg
++echo "RNXSHA=${RNXSHA}" >> $(dirname "$0")/../../commit.msg
++

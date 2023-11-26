@@ -1,0 +1,7 @@
+*.org
+tvheadend
+tvheadend.*
+tvheadend_*
+tvheadend-dbg*
+commit.msg
+workspace

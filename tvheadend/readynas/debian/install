@@ -1,0 +1,11 @@
+###
+# ReadyNAS stuff
+###
+debian/readynas/*		apps/tvheadend/
+debian/addons.conf		usr/share/doc/tvheadend
+####
+# Modules and Firmware are now in a separate
+# package for easier installation on new kernels
+###
+# debian/modules/*		/lib/modules/
+# debian/firmware/*		/lib/firmware/

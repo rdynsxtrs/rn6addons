@@ -1,0 +1,13 @@
+<Application resource-id="tvheadend"><!-- 'resource-id' must be AppName -->
+  <AppID>WHOCARES_GENIEAPP_999999</AppID>
+  <Name>TVHeadend</Name><!-- Any desciptive name, upto 48 chars -->
+  <Author><![CDATA[<a href="https://rnxtras.com/" target="_blank">ReadyNAS Xtras</a>]]></Author><!-- Authors name. upto 48 chars -->
+  <Version>3.9.2212-rnx0</Version><!-- Version -->
+  <RequireReboot>1</RequireReboot><!-- If non-zero, it indicate reboot is required. -->
+  <ConfigURL></ConfigURL>
+  <LaunchURL>http://localhost:9981</LaunchURL><!-- 'localhost' will be replaced by framework JS. -->
+  <ReservePort>9981</ReservePort>
+  <DebianPackage>tvheadend</DebianPackage>
+  <ServiceName>fvapp-tvheadend.service</ServiceName>
+  <Description lang="en-us">TVHeadend: a TV streaming server for Linux supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, IPTV, SAT-IP and Analog video (V4L) (up to version 3.4) as input sources.</Description>
+</Application>

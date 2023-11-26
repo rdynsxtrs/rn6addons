@@ -1,0 +1,7 @@
+tvheadend (4.1-49-rnx0) unstable; urgency=low
+
+  * Made it work on ReadyNAS OS 6 (x86) 
+  * The full changelog can be found at 
+    https://tvheadend.org/projects/tvheadend/wiki/Releases
+
+ -- ReadyNAS Xtras <xtras@readynasxtras.com>  Sat, 06 Dec 2014 16:46:45 +0100
